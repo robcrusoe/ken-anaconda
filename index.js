@@ -24,6 +24,13 @@ app.use(ctx => {
     ctx.response.body = ctx.userData;
     // ctx.response.body = ctx.userData.first;
     console.log(from, method);
+
+    if(ctx.userData) {
+        return ctx.response.body = ctx.userData;
+    }
+    else {
+        return ctx.throw(500, 'Data required!');
+    }
 });
 
 app.listen(3000);
