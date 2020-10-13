@@ -11,25 +11,12 @@ app.context.userData = {
 
 
 /* Response */
-app.use(ctx => {
-    // Uses the state
-    ctx.state.user = 'John Doe';
-
-    // Uses the request object
-    let from = ctx.request.origin;
-    let method = ctx.request.method;
-
-    // Prints out message with date
-    // ctx.response.body = `Hello, There! ${ctx.state.user} on ${ctx.date}`;
-    ctx.response.body = ctx.userData;
-    // ctx.response.body = ctx.userData.first;
-    console.log(from, method);
-
-    if(ctx.userData) {
-        return ctx.response.body = ctx.userData;
-    }
-    else {
-        return ctx.throw(500, 'Data required!');
+app.use(async (ctx) => {
+    // Uses 'async'
+    try {
+        return ctx.response.body = await ctx.userData;
+    } catch (error) {
+        console.log(error);
     }
 });
 
