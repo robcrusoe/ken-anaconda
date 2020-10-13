@@ -4,6 +4,10 @@ const app = new Koa();
 
 /* Add a date method to the 'context' */
 app.context.date = Date();
+app.context.userData = {
+    'first': 'John',
+    'last': 'Doe'
+};
 
 
 /* Response */
@@ -16,7 +20,9 @@ app.use(ctx => {
     let method = ctx.request.method;
 
     // Prints out message with date
-    ctx.body = `Hello, There! ${ctx.state.user} on ${ctx.date}`;
+    // ctx.response.body = `Hello, There! ${ctx.state.user} on ${ctx.date}`;
+    ctx.response.body = ctx.userData;
+    // ctx.response.body = ctx.userData.first;
     console.log(from, method);
 });
 
