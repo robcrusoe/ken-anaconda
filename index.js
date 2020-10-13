@@ -2,22 +2,32 @@ const Koa = require('koa');
 const app = new Koa();
 
 
-/* Add a date method to the 'context' */
-app.context.date = Date();
 app.context.userData = {
     'first': 'John',
     'last': 'Doe'
 };
 
 
+/* Logger */
+app.use(async (ctx, next) => {
+    await next();
+    const responseTime = ctx.response.get('X-Response-Time');
+    console.log(`${ctx.response.method} ${ctx.response.url} - ${responseTime}`);
+});
+
+
+app.use(async (ctx, next) => {
+    const start = Date.now();
+    await next();
+
+    const milliSecond = Date.now() - start;
+    ctx.set('X-Response-Time', `${milliSecond} ms`);
+});
+
+
 /* Response */
 app.use(async (ctx) => {
-    // Uses 'async'
-    try {
-        return ctx.response.body = await ctx.userData;
-    } catch (error) {
-        console.log(error);
-    }
+    ctx.response.body = ctx.userData;
 });
 
 app.listen(3000);
