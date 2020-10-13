@@ -12,7 +12,7 @@ app.context.userData = {
 app.use(async (ctx, next) => {
     await next();
     const responseTime = ctx.response.get('X-Response-Time');
-    console.log(`${ctx.response.method} ${ctx.response.url} - ${responseTime}`);
+    console.log(`${ctx.request.method} ${ctx.request.url} - ${responseTime}`);
 });
 
 
